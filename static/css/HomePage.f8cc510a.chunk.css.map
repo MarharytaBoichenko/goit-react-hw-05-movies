@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/components/ListOnSearch/ListOnSearch.module.css"],"names":[],"mappings":"AAAA,0BACE,WAAY,CACZ,UACF,CAEA,gCACE,UACF,CAEA,0BACE,kBACF","file":"HomePage.f8cc510a.chunk.css","sourcesContent":[".item {\n  padding: 5px;\n  color: black;\n}\n\n.item:hover {\n  color: blue;\n}\n\n.list {\n  list-style: decimal;\n}\n"]}
