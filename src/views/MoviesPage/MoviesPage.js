@@ -1,88 +1,83 @@
 import { useState, useEffect } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import SearchForm from '../../components/SearchForm/SearchForm';
-import api from '../../hooks/useFetch';
+import ListOnSearch from '../../components/ListOnSearch/ListOnSearch';
+import api from '../../apiHelpers/api';
 import { mapper } from '../../components/../helpers/mapper';
 import { toast } from 'react-toastify';
+import Loading from '../../components/Loader/Loading';
+// import Loader from 'react-loader-spinner';
+// import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+
 export default function MoviesPage() {
   const [queryFilms, setQueryFilms] = useState('');
+  const [films, setFilms] = useState([]);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const handleSearchSubmit = searchData => {
     setQueryFilms(searchData);
     console.log(searchData);
   };
+  const searchQuery = searchParams.get('query') || '';
+
+  useEffect(() => {
+    console.log(searchQuery);
+    if (!searchQuery) {
+      return;
+    }
+    fetchOnQuery(searchQuery);
+  }, []);
 
   useEffect(() => {
     if (queryFilms === '') {
       return;
     }
-    console.log(queryFilms);
     console.log('запрос изменился ');
-    fetchImgOnQuery();
+    fetchOnQuery(queryFilms);
   }, [queryFilms]);
 
-  const fetchImgOnQuery = () => {
-    const { fetchFilms } = api;
+  const fetchOnQuery = queryFilms => {
+    const { fetchFilmsOnQuery } = api;
     if (!queryFilms) {
       return;
     }
-    fetchFilms(queryFilms)
+    console.log('query  film for render');
+    setLoading(true);
+    fetchFilmsOnQuery(queryFilms)
       .then(data => {
-        console.log(data);
-        // const { results } = data;
         if (data.results.length === 0) {
+          console.log('no  films');
           toast('No  films  found');
           return;
         }
         console.log(data.results);
-        // const correctFilms = mapper(results);
+        const correctFilms = mapper(data.results);
 
-        // console.log(correctFilms);
-        //   setFilms(mapper(results));
+        console.log(correctFilms);
+        // setFilms(mapper(data.results));
 
-        setQueryFilms(data.results);
+        setFilms(data.results);
+        setLoading(false);
+        setSearchParams({ query: searchQuery });
       })
       .catch(error => setError(error));
   };
+  // const style = {
+  //   position: 'fixed',
+  //   top: '50%',
+  //   left: '50%',
+  //   transform: 'translate(-50%, -50%)',
+  //   zIndex: '99',
+  // };
+
   return (
     <>
-      {' '}
-      <SearchForm onSubmit={handleSearchSubmit} />;
-      {/* {queryFilms && (
-        <ul>
-          {queryFilms.map(({ id, named }) => (
-            <li key={id}>{named}</li>
-          ))}
-        </ul>
-      )} */}
+      <SearchForm onSubmit={handleSearchSubmit} />
+      {loading && <Loading />}
+      {films && <ListOnSearch films={films} />}
     </>
   );
-  // const [query, setQuery] = useState('');
-  // const onChangeHandler = e => {
-  //   console.log(e.target.value);
-  //   setQuery(e.target.value);
-  // };
-  // const onFormSubmitHandler = e => {
-  //   e.preventDefault();
-  //   if (query.trim() === '') {
-  //     return;
-  //     // сделать тостер нотифик
-  //     // toast('Enter your  query');
-  //   }
-  //   // onSubmit(query);
-  //   setQuery('');
-  // };
-  // return (
-  //   <form onSubmit={onFormSubmitHandler}>
-  //     <label>
-  //       <input
-  //         type="text"
-  //         //   name
-  //         value={query}
-  //         onChange={onChangeHandler}
-  //       />
-  //     </label>
-  //     <button type="submit">Search</button>
-  //   </form>
-  // );
 }

@@ -1,0 +1,18 @@
+.form {
+  margin-top: 20px;
+}
+
+.input {
+  margin-right: 15px;
+  width: 300px;
+  height: 30px;
+}
+.button {
+  width: 100px;
+  height: 30px;
+  padding: 5px;
+  color: beige;
+  background-color: rgb(4, 4, 94);
+  border-radius: 6%;
+  border: none;
+}

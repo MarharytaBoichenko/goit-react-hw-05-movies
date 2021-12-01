@@ -1,0 +1,12 @@
+.item {
+  padding: 5px;
+  color: black;
+}
+
+.item:hover {
+  color: blue;
+}
+
+.list {
+  list-style: decimal;
+}

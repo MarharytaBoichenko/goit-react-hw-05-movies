@@ -1,37 +1,57 @@
 import './App.css';
-import { Routes, Route, Link } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
+import { Routes, Route, Link, Navigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Container from './components/Container/Container';
-import HomePage from './views/HomePage/HomePage';
-import MoviesPage from './views/MoviesPage/MoviesPage';
-import MovieDetailsPage from './views/MovieDetailsPage/MovieDetailsPage';
+
+import Loading from './components/Loader/Loading';
+
+const Layout = lazy(() =>
+  import('./components/Layout/Layout.js' /* webpackChunkName: "Layout" */),
+);
+const HomePage = lazy(() =>
+  import('./views/HomePage/HomePage.js' /* webpackChunkName: "HomePage" */),
+);
+const MoviesPage = lazy(() =>
+  import(
+    './views/MoviesPage/MoviesPage.js' /* webpackChunkName: "MoviesPage" */
+  ),
+);
+const MovieDetailsPage = lazy(() =>
+  import(
+    './views/MovieDetailsPage/MovieDetailsPage.js' /* webpackChunkName: "MovieDetailsPage" */
+  ),
+);
+const Cast = lazy(() =>
+  import('./components/Cast/Cast.js' /* webpackChunkName: "Cast" */),
+);
+const Reviews = lazy(() =>
+  import('./components/Reviews/Reviews.js' /* webpackChunkName: "Reviews" */),
+);
+const NotFoundView = lazy(() =>
+  import(
+    './views/NotFoundView /NotFoundView .js' /* webpackChunkName: "NotFoundView" */
+  ),
+);
 
 export default function App() {
-  const onSearchSubmitHandler = searchData => {
-    console.log(searchData);
-    // сюда приходит  query  из формы поиска
-  };
   return (
-    <Container>
-      {/* <HomePage /> */}
+    <>
       <ToastContainer />
-      <MoviesPage onSubmit={onSearchSubmitHandler} />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        {/* <Route path="/movies" element={<MoviesPage />} /> */}
-        <Route path="/movies/:movieId" element={<MovieDetailsPage />} />
-        {/* <Route path="/movies/:movieId/cast" element={<Cast />} /> */}
-        {/* вынести в MovieDetailsPage */}
-
-        {/* <Route path="/movies/:movieId/reviews" element={<Reviews />} /> */}
-        {/* вынести в MovieDetailsPage */}
-
-        {/* <Route path="/authors//*" element={<AuthorsView />} />
-      <Route path="/books" element={<BooksView />} />
-      <Route path="//books/:bookId" element={<BookDetailsView />} />
-      <Route path="*" element={<NotFoundView />} /> */}
-      </Routes>
-    </Container>
+      <Suspense fallback={<Loading />}>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<HomePage />} />
+            <Route path="movies" element={<MoviesPage />} />
+            <Route path="movies/:id" element={<MovieDetailsPage />}>
+              <Route path="cast" element={<Cast />} />
+              <Route path="reviews" element={<Reviews />} />
+            </Route>
+            <Route path="*" element={<Navigate to={'/'} />} />
+          </Route>
+          {/* <Route path="*" element={<NotFoundView />} /> */}
+        </Routes>
+      </Suspense>
+    </>
   );
 }
