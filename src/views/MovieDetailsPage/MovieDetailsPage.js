@@ -18,12 +18,10 @@ export default function MovieDetailsPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location);
+  // console.log(location.state.from);
 
-  console.log(id);
   const goBack = () => {
-    console.log(location.pathname);
-    location.pathname.includes(`/movies/${id}/`) ? navigate(-2) : navigate(-1);
+    navigate(location?.state?.from ?? '/');
   };
 
   useEffect(() => {
@@ -52,33 +50,41 @@ export default function MovieDetailsPage() {
       {film && (
         <>
           <div className={s.filmThumb}>
-            {(
-              <img
-                src="https://i.ibb.co/8mnHvb2/no-poster.jpg"
-                alt="no_poster"
-                className={s.image}
-              />
-            ) && (
-              <img
-                src={`https://image.tmdb.org/t/p/w500${film.poster_path}`}
-                alt={film.title}
-                className={s.image}
-              />
-            )}
-            <h2 className={s.title}>{film.title}</h2>
-            <p>Rating {film.vote_average}</p>
-            <h3>Overview</h3>
-            <p className={s.overview}>{film.overview}</p>
-            <h4>Genres</h4>
-            <p className={s.genres}>
-              {film.genres.map(genre => genre.name).join(' ')}
-            </p>
+            {
+              // <div className={s.imageThumb}>
+              (
+                <img
+                  src="https://i.ibb.co/8mnHvb2/no-poster.jpg"
+                  alt="no_poster"
+                  className={s.image}
+                />
+              ) && (
+                <img
+                  src={`https://image.tmdb.org/t/p/w500${film.poster_path}`}
+                  alt={film.title}
+                  className={s.image}
+                />
+              )
+              // </div>
+            }
+            <div className={s.info}>
+              <h2 className={s.title}>{film.title}</h2>
+              <p>Rating {film.vote_average}</p>
+              <h3>Overview</h3>
+              <p className={s.overview}>{film.overview}</p>
+              <h4>Genres</h4>
+              <p className={s.genres}>
+                {film.genres.map(genre => genre.name).join(' ')}
+              </p>
+            </div>
           </div>
           <div>
             <p>Additional information</p>
             <ul>
               <li>
-                <Link to={`/movies/${id}/cast`}>Cast</Link>
+                <Link to={`/movies/${id}/cast`} state={{ from: location }}>
+                  Cast
+                </Link>
               </li>
 
               <li>

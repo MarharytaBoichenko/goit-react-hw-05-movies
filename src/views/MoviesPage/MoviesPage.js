@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import SearchForm from '../../components/SearchForm/SearchForm';
 import ListOnSearch from '../../components/ListOnSearch/ListOnSearch';
 import api from '../../apiHelpers/api';
-import { mapper } from '../../components/../helpers/mapper';
 import { toast } from 'react-toastify';
 import Loading from '../../components/Loader/Loading';
 // import Loader from 'react-loader-spinner';
@@ -54,24 +53,12 @@ export default function MoviesPage() {
           return;
         }
         console.log(data.results);
-        const correctFilms = mapper(data.results);
-
-        console.log(correctFilms);
-        // setFilms(mapper(data.results));
-
         setFilms(data.results);
         setLoading(false);
         setSearchParams({ query: searchQuery });
       })
       .catch(error => setError(error));
   };
-  // const style = {
-  //   position: 'fixed',
-  //   top: '50%',
-  //   left: '50%',
-  //   transform: 'translate(-50%, -50%)',
-  //   zIndex: '99',
-  // };
 
   return (
     <>

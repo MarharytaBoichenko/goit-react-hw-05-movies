@@ -23,5 +23,9 @@
   font-size: 14px;
 }
 .filmThumb {
+  display: flex;
   border-bottom: 2px solid grey;
+}
+.info {
+  padding-left: 30px;
 }

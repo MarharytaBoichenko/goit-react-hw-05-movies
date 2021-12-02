@@ -1,7 +1,7 @@
 import './App.css';
 import { lazy, Suspense } from 'react';
-import { Routes, Route, Link, Navigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import Loading from './components/Loader/Loading';
@@ -28,11 +28,11 @@ const Cast = lazy(() =>
 const Reviews = lazy(() =>
   import('./components/Reviews/Reviews.js' /* webpackChunkName: "Reviews" */),
 );
-const NotFoundView = lazy(() =>
-  import(
-    './views/NotFoundView /NotFoundView .js' /* webpackChunkName: "NotFoundView" */
-  ),
-);
+// const NotFoundView = lazy(() =>
+//   import(
+//     './views/NotFoundView /NotFoundView .js' /* webpackChunkName: "NotFoundView" */
+//   ),
+// );
 
 export default function App() {
   return (
