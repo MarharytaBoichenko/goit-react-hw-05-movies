@@ -18,10 +18,13 @@ export default function MovieDetailsPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  // console.log(location.state.from);
+  console.log(location);
+  console.log(location.state.from);
 
   const goBack = () => {
+    // console.log(location.state.from);
     navigate(location?.state?.from ?? '/');
+    // console.log(location.state.from);
   };
 
   useEffect(() => {
@@ -82,13 +85,21 @@ export default function MovieDetailsPage() {
             <p>Additional information</p>
             <ul>
               <li>
-                <Link to={`/movies/${id}/cast`} state={{ from: location }}>
+                <Link
+                  to={`/movies/${id}/cast`}
+                  state={{ from: location.state.from }}
+                >
                   Cast
                 </Link>
               </li>
 
               <li>
-                <Link to={`/movies/${id}/reviews`}>Reviews</Link>
+                <Link
+                  to={`/movies/${id}/reviews`}
+                  state={{ from: location.state.from }}
+                >
+                  Reviews
+                </Link>
               </li>
             </ul>
             <Outlet />

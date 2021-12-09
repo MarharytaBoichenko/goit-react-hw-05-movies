@@ -18,13 +18,14 @@ export default function SearchForm({ onSubmit }) {
       toast('Enter your  query');
     }
     ////set  params  of search  to url
-    const params = {};
-    params.query = query;
+    const params = { query };
+    // params.query = query;
+
     setSearchParams(params);
     /////[хук  ???????  на странице  списка поиска
 
     console.log('got  query  pass query  to moviepage');
-    onSubmit(query);
+    // onSubmit(query);
     setQuery('');
   };
 

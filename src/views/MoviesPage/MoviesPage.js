@@ -9,34 +9,34 @@ import Loading from '../../components/Loader/Loading';
 // import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
 export default function MoviesPage() {
-  const [queryFilms, setQueryFilms] = useState('');
+  // const [queryFilms, setQueryFilms] = useState('');
   const [films, setFilms] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const handleSearchSubmit = searchData => {
-    setQueryFilms(searchData);
-    console.log(searchData);
-  };
+  // const handleSearchSubmit = searchData => {
+  //   setQueryFilms(searchData);
+  //   console.log(searchData);
+  // };
   const searchQuery = searchParams.get('query') || '';
 
-  useEffect(() => {
-    console.log(searchQuery);
-    if (!searchQuery) {
-      return;
-    }
-    fetchOnQuery(searchQuery);
-  }, []);
+  // useEffect(() => {
+  //   console.log(searchQuery);
+  //   if (!searchQuery) {
+  //     return;
+  //   }
+  //   fetchOnQuery(searchQuery);
+  // }, []);
 
   useEffect(() => {
-    if (queryFilms === '') {
+    if (searchQuery === '') {
       return;
     }
     console.log('запрос изменился ');
-    fetchOnQuery(queryFilms);
-  }, [queryFilms]);
+    fetchOnQuery(searchQuery);
+  }, [searchQuery]);
 
   const fetchOnQuery = queryFilms => {
     const { fetchFilmsOnQuery } = api;
@@ -62,7 +62,7 @@ export default function MoviesPage() {
 
   return (
     <>
-      <SearchForm onSubmit={handleSearchSubmit} />
+      <SearchForm />
       {loading && <Loading />}
       {films && <ListOnSearch films={films} />}
     </>

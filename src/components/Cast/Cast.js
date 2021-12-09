@@ -1,5 +1,5 @@
 import api from '../../apiHelpers/api';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useLocation } from 'react';
 import { useParams } from 'react-router-dom';
 import s from './Cast.module.css';
 
@@ -7,6 +7,9 @@ export default function Cast() {
   const [actors, setActors] = useState('');
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
+  // const location = useLocation();
+  // console.log(location.state);
+  // console.log(location.state.from);
 
   useEffect(() => {
     if (id === '') {
